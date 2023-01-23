@@ -21,7 +21,7 @@ tokenizer, model = load_model()
 p.set_model(tokenizer, model)
 
 random_list = [m1, m2, m3, m4, m5, m6, h1, h2, h3, h4, h5, h6, h7]
-MAX_CHARS = 2000
+MAX_CHARS = 3000
 
 
 st.title("ChatGPT Chinese Text Detector")
@@ -38,14 +38,14 @@ col1, col2, col3, col4, col5  = st.columns(5)
 text = text_area.text_area("Enter your Chinese text here:", \
     max_chars=MAX_CHARS, height=450)
 
-if col3.button("Random Text Result"):
+if col1.button("Random text result"):
     random_text = "".join(random.choices(random_list))
     text_area.text_area("Enter your Chinese text here:", random_text, \
         max_chars=MAX_CHARS, height=450)
     if random_text:
         score = p.calculate(random_text)
         if score:
-            col4.metric("Perplexity Score", score, "")
+            col2.metric("Perplexity: ", score, "")
             result = classify_perplexity(score)
             if result == "AI":
                 st.warning("This text is most likely written by AI (ChatGPT)", icon="⚠️")
@@ -58,29 +58,29 @@ if col3.button("Random Text Result"):
     else:
         st.warning("Please add text above")
 
-if col3.button('Get Result'):
+if col3.button('Get your text result'):
     if text:
         if len(text) < 10:
             st.error("Text is too short. Please input more than 10 characters.")
-        if len(text) > MAX_CHARS:
+        elif len(text) > MAX_CHARS:
             st.error("Text is too long. Please input less than 2000 characters.")
-
-        score = p.calculate(text)
-        if score:
-            col4.metric("Perplexity Score", score, "")
-            result = classify_perplexity(score)
-            if result == "AI":
-                st.warning("This text is most likely written by AI (ChatGPT)", icon="⚠️")
-            elif result == "Human":
-                st.success("This text is most likely written by Human", icon="🐵")
-            else:
-                st.warning("It is hard to tell if this text is written by a human or AI", icon="❓")
         else:
-            st.warning("Please try again")
+            score = p.calculate(text)
+            if score:
+                col4.metric("Perplexity: ", score, "")
+                result = classify_perplexity(score)
+                if result == "AI":
+                    st.warning("This text is most likely written by AI (ChatGPT)", icon="⚠️")
+                elif result == "Human":
+                    st.success("This text is most likely written by Human", icon="🐵")
+                else:
+                    st.warning("It is hard to tell if this text is written by a human or AI", icon="❓")
+            else:
+                st.warning("Please try again")
     else:
         st.warning("Please add text above")
 
-st.sidebar.header("Auther: ")
+st.sidebar.header("Author: ")
 st.sidebar.subheader("RUI-LONG CHENG 鄭瑞龍")
 st.sidebar.markdown("\n")
 st.sidebar.header("Contact Information: ")
