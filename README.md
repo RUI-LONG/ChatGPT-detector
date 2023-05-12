@@ -1,6 +1,7 @@
 # ChatGPT 中文文本檢測器
 
-這是一款用於檢測中文文本是否由ChatGPT生成的工具。
+這是一款用於檢測中文文本是否由ChatGPT生成的工具。 <br>
+[Online Demo](https://rui-long-chatgpt-detector.streamlit.app/)
 
 # 特點
 
